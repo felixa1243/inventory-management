@@ -22,7 +22,6 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           server-dir: ./public_html/apps/inventory-management/
-          local-dir: dist/
           exclude: |
             **/.git*
             **/.git*/**
