@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (env('APP_ENV') === 'production') {
+            // change update route
+            Livewire::setUpdateRoute(function ($handle) {
+                return Route::post('/apps/inventory-management/public/livewire/update', $handle);
+            });
+            // change script route
+            Livewire::setScriptRoute(function ($handle) {
+                return Route::get('/apps/inventory-management/public/livewire/livewire.js', $handle);
+            });
+        }
     }
 }
