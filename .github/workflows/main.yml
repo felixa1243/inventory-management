@@ -18,6 +18,8 @@ jobs:
           npm install
           npm run build
           composer install --no-dev --optimize-autoloader
+          php artisan migrate
+          php artisan db:seed --class=DatabaseSeeder
 
       - name: 📦 Create deployment package
         run: zip -r deploy.zip . -x ".git/*" ".github/*" "node_modules/*" "deploy.php"
