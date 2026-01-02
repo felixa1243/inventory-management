@@ -21,8 +21,6 @@ jobs:
 
       - name: 📦 Create deployment package
         run: zip -r deploy.zip . -x ".git/*" ".github/*" "node_modules/*" "deploy.php"
-      - name: 🔓 Trigger extraction
-        run: curl ${{ secrets.FTP_SERVER}}/apps/inventory-management/deploy.php
 
       - name: 📂 Upload deployment package
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -35,3 +33,5 @@ jobs:
             *
             !deploy.zip
             !deploy.php
+      - name: 🔓 Trigger extraction
+        run: curl ${{ secrets.FTP_SERVER}}/apps/inventory-management/deploy.php
