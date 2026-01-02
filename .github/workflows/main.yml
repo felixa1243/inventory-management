@@ -2,7 +2,9 @@ on:
   push:
     branches:
       - main
+
 name: 🚀 Deploy website on push
+
 jobs:
   web-deploy:
     name: 🎉 Deploy
@@ -16,7 +18,13 @@ jobs:
           npm install
           npm run build
           composer install --no-dev --optimize-autoloader
-      - name: 📂 Sync files
+
+      - name: 📦 Create deployment package
+        run: zip -r deploy.zip . -x ".git/*" ".github/*" "node_modules/*" "deploy.php"
+      - name: 🔓 Trigger extraction
+        run: curl ${{ secrets.FTP_SERVER}}/apps/inventory-management/deploy.php
+
+      - name: 📂 Upload deployment package
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -24,10 +32,6 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           server-dir: ./public_html/apps/inventory-management/
           exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/backup/**
-            **/docs/**
-            .env
-            .htaccess
+            *
+            !deploy.zip
+            !deploy.php
