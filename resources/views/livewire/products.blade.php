@@ -34,10 +34,14 @@
                             {{ $product->description }}
                         </td>
                         <td>
-                            1 {{ $product->unit_abv }}
+                            {{ Number::format($product->qty) }} {{ $product->unit_abv }}
                         </td>
                         <td class="flex gap-3">
-                            <button class="bg-green-600 px-5 py-3 text-white">Stock In</button>
+                            <button type="button" class="btn-outline bg-green-700 text-white"
+                                @click="document.getElementById('stock-in').showModal();Livewire.dispatch('load-stock-info', { id: {{ $product->id }} });
+    ">
+                                Stock In
+                            </button>
                             <button class="bg-blue-600 px-5 py-3 text-white">Stock Out</button>
                             <button class="bg-red-500 px-5 py-3 text-white">Delete</button>
                         </td>

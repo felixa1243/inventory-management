@@ -13,8 +13,10 @@ class Products extends Component
         return \App\Models\Products::select(
             'products.*',
             'units.abbreviation as unit_abv',
+            'stocks.quantity as qty'
         )
             ->join('units', 'products.unit_id', '=', 'units.id')
+            ->join('stocks', 'products.id', '=', 'stocks.product_id')
             ->paginate(15);
     }
 
