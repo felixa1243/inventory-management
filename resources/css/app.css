@@ -7,12 +7,13 @@
 
     input[type="text"],
     input[type="number"],
-    textarea {
-        @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-5 py-3 w-full placeholder:text-gray-300;
+    textarea,
+    select {
+        @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-5 py-3 w-full placeholder:text-gray-300 bg-gray-100;
     }
 
     textarea {
-        @apply resize-none;
+        @apply resize-none bg-gray-100;
     }
 
     .input-group {

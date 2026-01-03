@@ -4,12 +4,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+Route::group(['middleware' => ['auth']], function () {
+    Route::view('profile', 'profile')
+        ->name('profile');
+
+    Route::view('dashboard', 'dashboard')
+        ->middleware(['verified'])
+        ->name('dashboard');
+    Route::get('/products/create', \App\Livewire\CreateProduct::class)->name('products.create');
+});
+require __DIR__ . '/auth.php';

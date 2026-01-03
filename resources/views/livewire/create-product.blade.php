@@ -13,7 +13,14 @@
                 <label for="description">Description</label>
                 <textarea wire:model="description" name="description"></textarea>
             </div>
-            <button type="submit" class="bg-blue-500 px-5 py-3 w-1/2 rounded-xl text-white">Add Product</button>
+            <div class="input-group">
+                <select wire:model="unitID" class="w-full">
+                    @foreach ($this->units as $unit)
+                        <option value="{{ $unit->id }}">{{ $unit->name }}({{ $unit->abbreviation }})</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" class="bg-blue-500 px-5 py-3 w-1/2  text-white">Add Product</button>
         </form>
     </div>
 </div>
@@ -22,6 +29,12 @@
     Livewire.on('productCreated', (event) => {
         Toastify({
             text: 'Product Have been Created'
+        }).showToast();
+    })
+    Livewire.on('productNotCreated', (event) => {
+        Toastify({
+            text: 'Product Not Created',
+            backgroundColor: 'red'
         }).showToast();
     })
 </script>
