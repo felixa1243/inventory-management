@@ -25,6 +25,7 @@ jobs:
       - name: 📂 Upload deployment package
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
+          protocol: sftp
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
