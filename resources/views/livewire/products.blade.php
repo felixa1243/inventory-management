@@ -1,6 +1,6 @@
 <div>
     Product List
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <td>
