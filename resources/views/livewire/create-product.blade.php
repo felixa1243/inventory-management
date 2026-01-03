@@ -3,18 +3,18 @@
         <form wire:submit.prevent="createProduct" class="flex flex-col items-center gap-7">
             <div class="input-group">
                 <label for="name">Product Name</label>
-                <input type="text" wire:model="name" name="name">
+                <input type="text" wire:model="name" name="name" class="input">
             </div>
             <div class="input-group">
                 <label for="price">Price</label>
-                <input type="number" wire:model="price" name="price">
+                <input type="number" wire:model="price" name="price" class="input">
             </div>
             <div class="input-group">
                 <label for="description">Description</label>
-                <textarea wire:model="description" name="description"></textarea>
+                <textarea wire:model="description" name="description" class="textarea resize-none"></textarea>
             </div>
             <div class="input-group">
-                <select wire:model="unitID" class="w-full">
+                <select wire:model="unitID" class="select w-full">
                     @foreach ($this->units as $unit)
                         <option value="{{ $unit->id }}">{{ $unit->name }}({{ $unit->abbreviation }})</option>
                     @endforeach
