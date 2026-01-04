@@ -17,6 +17,10 @@
         <input type="text" wire:model="quantityBefore" id="stock-in-quantity-before" class="input" disabled />
     </div>
     <div class="grid gap-3">
+        <label for="stock-type">Stock Type</label>
+        <input type="text" class="input" wire:model="unitAbbreviation" disabled>
+    </div>
+    <div class="grid gap-3">
         <label for="stock-in-quantiy">Amount Added</label>
         <input type="number" wire:model.live="quantityAfter" id="stock-in-quantiy" class="input"
             placeholder="place your desired stock" />

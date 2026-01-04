@@ -11,22 +11,17 @@ use Livewire\Attributes\Computed;
 
 class StockOutForm extends Component
 {
-    // ... existing properties ...
+
     public $productID;
     public $name = '';
     public $price = '';
 
-    // Display value (formatted)
     public $quantityBefore = '';
-
-    // Add this: Validation value (unformatted)
     public $rawQuantityBefore = 0;
 
     #[Validate]
     public $quantityAfter;
     public $unitAbbreviation = '';
-
-    // ... services ...
     private $stockService;
     private $productService;
 
@@ -41,7 +36,7 @@ class StockOutForm extends Component
     {
         $this->resetValidation();
         $this->productID = $id;
-        $product = $this->productService->productsWithUnits()->find($id)->first();
+        $product = $this->productService->productWithUnits($id);
         $stock = $this->stockService->findByProductId($id)->first();
 
         if ($product) {
@@ -51,9 +46,7 @@ class StockOutForm extends Component
         }
 
         if ($stock) {
-            // Store the display version
             $this->quantityBefore = Number::format($stock->quantity);
-            // Store the raw version for math/validation
             $this->rawQuantityBefore = $stock->quantity;
         } else {
             $this->quantityBefore = '0';
@@ -61,12 +54,11 @@ class StockOutForm extends Component
         }
     }
 
-    // ... refresh method ...
 
     #[Computed()]
     public function projectedStock()
     {
-        // Use rawQuantityBefore for accurate math
+
         $reduced = (float) $this->quantityAfter;
         $current = (float) $this->rawQuantityBefore;
 
@@ -78,7 +70,6 @@ class StockOutForm extends Component
         return \App\Livewire\Validator\StockOutValidator::rules($this->unitAbbreviation);
     }
 
-    // Custom messages to make the error user-friendly
     public function messages()
     {
         return [

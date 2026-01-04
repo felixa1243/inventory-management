@@ -10,4 +10,5 @@ interface IProductRepository
     public function update($id, array $data);
     public function delete($id);
     public function productsWithUnits();
+    public function productWithId($id);
 }

@@ -18,7 +18,7 @@ class StockInForm extends Component
     public $quantityBefore = '';
     #[Validate]
     public $quantityAfter;
-    public $unitAbbreviation = '';
+    public $unitAbbreviation;
     private $stockService;
     private $productService;
     public function boot()
@@ -31,7 +31,7 @@ class StockInForm extends Component
     {
         $this->resetValidation();
         $this->productID = $id;
-        $product = $this->productService->productsWithUnits()->find($id)->first();
+        $product = $this->productService->productWithUnits($id);
         $stock = $this->stockService->findByProductId($id)->first();
 
         if ($product) {

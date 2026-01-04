@@ -34,9 +34,8 @@ class ProductService
                 ]);
             });
         } catch (\Exception $e) {
-            throw new \Exception('Product not created');
+            throw new \Exception($e->getMessage());
         }
-        return $this->productRepository->create($data);
     }
     public function update($id, array $data)
     {
@@ -55,5 +54,9 @@ class ProductService
     public function productsWithUnits()
     {
         return $this->productRepository->productsWithUnits();
+    }
+    public function productWithUnits($id)
+    {
+        return $this->productRepository->productsWithUnits($id)->first();
     }
 }

@@ -34,4 +34,8 @@ class ProductRepository implements IProductRepository
     {
         return Products::select('products.*', 'units.abbreviation as unit_abv')->join('units', 'products.unit_id', '=', 'units.id');
     }
+    public function productWithId($id)
+    {
+        $this->productsWithUnits()->where('products.id', $id)->first();
+    }
 }
