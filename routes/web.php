@@ -17,5 +17,6 @@ Route::group(['middleware' => ['auth']], function () {
         ->middleware(['verified'])
         ->name('dashboard');
     Route::get('/products/create', \App\Livewire\CreateProduct::class)->name('products.create');
+    Route::get('settings', \App\Livewire\Settings::class)->name('settings');
 });
 require __DIR__ . '/auth.php';

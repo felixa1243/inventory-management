@@ -25,24 +25,28 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'pieces',
                     'abbreviation' => 'pcs',
+                    'coutable' => true,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'name' => 'gram',
                     'abbreviation' => 'g',
+                    'coutable' => false,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'name' => 'kilogram',
                     'abbreviation' => 'kg',
+                    'coutable' => false,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'name' => 'litre',
                     'abbreviation' => 'l',
+                    'coutable' => false,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]
