@@ -6,9 +6,6 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Number;
-use Illuminate\Support\Facades\DB;
-use App\Models\Products;
-use App\Models\Stocks;
 use Livewire\Attributes\Computed;
 
 class StockInForm extends Component
@@ -21,25 +18,25 @@ class StockInForm extends Component
     #[Validate]
     public $quantityAfter;
     public $unitAbbreviation = '';
-
+    private $stockService;
+    private $productService;
+    public function boot()
+    {
+        $this->stockService = app()->make(\App\Services\StockService::class);
+        $this->productService = app()->make(\App\Services\ProductService::class);
+    }
     #[On('load-stock-info')]
     public function loadProduct($id)
     {
         $this->resetValidation();
         $this->productID = $id;
-        $product = Products::find($id);
-        $stock = Stocks::where('product_id', $id)->first();
+        $product = $this->productService->productsWithUnits()->find($id)->first();
+        $stock = $this->stockService->findByProductId($id)->first();
 
         if ($product) {
             $this->name = $product->name;
             $this->price = Number::format($product->price);
-
-            $unit = DB::table('units')
-                ->join('products', 'units.id', '=', 'products.unit_id')
-                ->where('products.id', $id)
-                ->value('abbreviation');
-
-            $this->unitAbbreviation = $unit;
+            $this->unitAbbreviation = $product->unit_abv;
         }
 
         if ($stock) {
@@ -49,10 +46,15 @@ class StockInForm extends Component
             $this->quantityBefore = '0';
         }
     }
+    #[On('stockUpdated')]
+    public function refresh()
+    {
+        $this->reset();
+        $this->redirect(route('dashboard'));
+    }
     #[Computed()]
     public function projectedStock()
     {
-        // Cast to float to ensure math works, treat empty input as 0
         $added = (float) $this->quantityAfter;
         $current = (float) $this->quantityBefore;
 
@@ -60,14 +62,7 @@ class StockInForm extends Component
     }
     public function rules()
     {
-        $rules = [
-            'quantityAfter' => 'required|numeric|min:0.1',
-        ];
-        if ($this->unitAbbreviation === 'pcs') {
-            $rules['quantityAfter'] = 'required|integer|min:1';
-        }
-
-        return $rules;
+        return \App\Livewire\Validator\StockInValidator::rules($this->unitAbbreviation);
     }
 
 
@@ -75,13 +70,8 @@ class StockInForm extends Component
     {
         $this->validate();
 
-        DB::transaction(function () {
-            $stock = Stocks::where('product_id', $this->productID)->lockForUpdate()->first();
-
-            if ($stock) {
-                $stock->increment('quantity', $this->quantityAfter);
-            }
-        });
+        $this->stockService->addStock($this->productID, $this->quantityAfter);
+        $this->dispatch('stockUpdated');
     }
 
     public function render()

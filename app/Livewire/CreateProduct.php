@@ -14,16 +14,9 @@ use Livewire\Component;
 
 class CreateProduct extends Component
 {
-    #[Validate('required|string|max:255')]
     public string $name = '';
-
-    #[Validate('required|numeric|min:0')]
     public float $price = 0;
-
-    #[Validate('nullable|string')]
     public string $description = '';
-
-    #[Validate('required|exists:units,id')]
     public int $unitID = 1;
 
     #[Title('Create Product')]
@@ -31,31 +24,31 @@ class CreateProduct extends Component
     {
         return view('livewire.create-product');
     }
-
+    private $productService;
+    public function boot()
+    {
+        $this->productService = app()->make(\App\Services\ProductService::class);
+    }
     #[Computed]
     public function units()
     {
         return Units::all();
     }
-
+    public function rules()
+    {
+        return \App\Livewire\Validator\ProductValidator::rules();
+    }
     public function createProduct()
     {
         $this->validate();
 
         try {
-            DB::transaction(function () {
-                $product = Products::create([
-                    'name'        => $this->name,
-                    'price'       => $this->price,
-                    'description' => $this->description,
-                    'unit_id'     => $this->unitID,
-                ]);
-                Stocks::create([
-                    'product_id' => $product->id,
-                    'quantity'   => 0,
-                ]);
-            });
-
+            $this->productService->create([
+                'name' => $this->name,
+                'price' => $this->price,
+                'description' => $this->description,
+                'unit_id' => $this->unitID
+            ]);
             $this->dispatch('productCreated');
             $this->reset();
         } catch (\Exception $e) {

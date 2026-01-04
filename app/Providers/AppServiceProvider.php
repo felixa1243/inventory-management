@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public $bindings = [
+        \App\Repositories\IProductRepository::class => \App\Repositories\ProductRepository::class,
+        \App\Repositories\IStockRepository::class => \App\Repositories\StockRepository::class
+    ];
     /**
      * Register any application services.
      */

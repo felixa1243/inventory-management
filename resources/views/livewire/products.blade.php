@@ -28,13 +28,13 @@
                             {{ $product->name }}
                         </td>
                         <td>
-                            {{ $product->price }}
+                            {{ Number::format($product->price) }}
                         </td>
                         <td>
                             {{ $product->description }}
                         </td>
                         <td>
-                            {{ Number::format($product->qty) }} {{ $product->unit_abv }}
+                            {{ Number::format($product->quantity) }} {{ $product->unit_abv }}
                         </td>
                         <td class="flex gap-3">
                             <button type="button" class="btn-outline bg-green-700 text-white"
@@ -56,4 +56,11 @@
             @endif
         </tbody>
     </table>
+    <script type="module">
+        Livewire.on('stockUpdated', (event) => {
+            Toastify({
+                text: 'Stock Have been Updated'
+            }).showToast();
+        })
+    </script>
 </div>
