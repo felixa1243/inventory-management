@@ -37,12 +37,14 @@
                             {{ Number::format($product->quantity) }} {{ $product->unit_abv }}
                         </td>
                         <td class="flex gap-3">
-                            <button type="button" class="btn-outline bg-green-700 text-white"
+                            <button type="button" class="btn bg-green-700 text-white"
                                 @click="document.getElementById('stock-in').showModal();Livewire.dispatch('load-stock-info', { id: {{ $product->id }} });
     ">
                                 Stock In
                             </button>
-                            <button class="bg-blue-600 px-5 py-3 text-white">Stock Out</button>
+                            <button type="button" class="btn bg-blue-600 px-5 py-3 text-white"
+                                @click="document.getElementById('stock-out').showModal();Livewire.dispatch('load-stock-info', { id: {{ $product->id }} });">Stock
+                                Out</button>
                             <button class="bg-red-500 px-5 py-3 text-white">Delete</button>
                         </td>
                     </tr>
@@ -60,6 +62,18 @@
         Livewire.on('stockUpdated', (event) => {
             Toastify({
                 text: 'Stock Have been Updated'
+            }).showToast();
+        })
+        Livewire.on('stockNotUpdated', (event) => {
+            Toastify({
+                text: 'Stock Not Updated',
+                backgroundColor: 'red'
+            }).showToast();
+        })
+        Livewire.on('stockCannotBeBelowZero', (event) => {
+            Toastify({
+                text: 'Stock Cannot Be Below Zero',
+                backgroundColor: 'red'
             }).showToast();
         })
     </script>

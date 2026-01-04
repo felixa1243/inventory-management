@@ -48,4 +48,17 @@ class StockRepository implements IStockRepository
             throw new \Exception('Product not found');
         }
     }
+    public function reduceStock($productId, $quantity)
+    {
+        $stock = $this->findByProductId($productId);
+        if ($stock) {
+            DB::transaction(function () use ($stock, $quantity) {
+                $stock = $stock->lockForUpdate()->first();
+                if ($stock->quantity - $quantity < 0) throw new \Exception('Stock cannot be below 0');
+                $stock->decrement('quantity', $quantity);
+            });
+        } else {
+            throw new \Exception('Product not found');
+        }
+    }
 }

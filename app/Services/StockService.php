@@ -36,7 +36,15 @@ class StockService
         try {
             return $this->stockRepository->addStock($productId, $quantity);
         } catch (\Exception $e) {
-            throw new \Exception('Product not found');
+            throw new \Exception();
+        }
+    }
+    public function reduceStock($productId, $quantity)
+    {
+        try {
+            return $this->stockRepository->reduceStock($productId, $quantity);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

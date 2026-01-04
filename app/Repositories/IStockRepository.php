@@ -12,4 +12,5 @@ interface IStockRepository
     public function findByProductID($id);
     public function productsStocksAndUnits();
     public function addStock($productId, $quantity);
+    public function reduceStock($productId, $quantity);
 }
