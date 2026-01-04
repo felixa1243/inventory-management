@@ -45,7 +45,8 @@
                             <button type="button" class="btn bg-blue-600 px-5 py-3 text-white"
                                 @click="document.getElementById('stock-out').showModal();Livewire.dispatch('load-stock-info', { id: {{ $product->id }} });">Stock
                                 Out</button>
-                            <button class="bg-red-500 px-5 py-3 text-white">Delete</button>
+                            <button class="btn bg-red-500 px-5 py-3 text-white"
+                                @click="document.getElementById('delete').showModal();Livewire.dispatch('load-stock-info', { id: {{ $product->id }} });">Delete</button>
                         </td>
                     </tr>
                 @endforeach
@@ -74,6 +75,11 @@
             Toastify({
                 text: 'Stock Cannot Be Below Zero',
                 backgroundColor: 'red'
+            }).showToast();
+        })
+        Livewire.on('productDeleted', (event) => {
+            Toastify({
+                text: 'Product Have been Deleted'
             }).showToast();
         })
     </script>

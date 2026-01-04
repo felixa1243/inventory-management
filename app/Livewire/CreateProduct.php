@@ -2,14 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\Products;
-use App\Models\Stocks;
 use App\Models\Units;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class CreateProduct extends Component
@@ -17,7 +13,7 @@ class CreateProduct extends Component
     public string $name = '';
     public float $price = 0;
     public string $description = '';
-    public int $unitID = 1;
+    public int $unit_id = 1;
 
     #[Title('Create Product')]
     public function render()
@@ -47,7 +43,7 @@ class CreateProduct extends Component
                 'name' => $this->name,
                 'price' => $this->price,
                 'description' => $this->description,
-                'unit_id' => $this->unitID
+                'unit_id' => $this->unit_id
             ]);
             $this->dispatch('productCreated');
             $this->reset();

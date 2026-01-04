@@ -78,6 +78,28 @@
             </button>
         </div>
     </dialog>
+    <dialog id="delete" class="dialog w-full sm:max-w-106.25 max-h-153" aria-labelledby="delete-title"
+        aria-describedby="delete" onclick="if (event.target === this) this.close()" x-data>
+        <div>
+            <header>
+                <h2 id="delete-title">Delete Product</h2>
+                <p id="delete-description">Are you sure want to delete this product?</p>
+            </header>
+
+            <section>
+                <livewire:product.delete />
+            </section>
+
+            <button type="button" aria-label="Close dialog" onclick="this.closest('dialog').close()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-x-icon lucide-x">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </button>
+        </div>
+    </dialog>
 </body>
 
 </html>

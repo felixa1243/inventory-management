@@ -19,6 +19,10 @@ class StockService
     {
         return $this->stockRepository->create($data);
     }
+    public function delete($id)
+    {
+        return $this->stockRepository->delete($id);
+    }
     public function all()
     {
         return $this->stockRepository->all();

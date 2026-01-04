@@ -14,12 +14,15 @@
                 <textarea wire:model="description" name="description" class="textarea resize-none"></textarea>
             </div>
             <div class="input-group">
-                <select wire:model="unitID" class="select w-full">
+                <select wire:model="unit_id" class="select w-full">
                     @foreach ($this->units as $unit)
                         <option value="{{ $unit->id }}">{{ $unit->name }}({{ $unit->abbreviation }})</option>
                     @endforeach
                 </select>
             </div>
+            @error('name')
+                <span class="text-sm text-red-500">{{ $message }}</span>
+            @enderror
             <button type="submit" class="bg-blue-500 px-5 py-3 w-1/2  text-white">Add Product</button>
         </form>
     </div>

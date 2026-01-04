@@ -44,7 +44,13 @@ class ProductService
     }
     public function delete($id)
     {
-        return $this->productRepository->delete($id);
+        DB::transaction(function () use ($id) {
+            $stock = $this->stockService->findByProductId($id)->first();
+            if ($stock) {
+                $this->stockService->delete($stock->id);
+            }
+            return $this->productRepository->delete($id);
+        });
     }
     public function productsWithUnits()
     {
