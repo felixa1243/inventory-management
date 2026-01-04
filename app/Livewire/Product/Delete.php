@@ -35,7 +35,7 @@ class Delete extends Component
             $this->unitAbbreviation = $product->unit_abv;
         }
     }
-    #[On('deleteProductDeleted')]
+    #[On('productDeleted')]
     public function refresh()
     {
         $this->redirect(route('dashboard'));
